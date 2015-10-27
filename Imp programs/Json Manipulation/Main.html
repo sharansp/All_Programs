@@ -1,0 +1,86 @@
+<!--This program compares InboxEditorConfig.js File and ExcelOutput.js , and displays the updated text in the browser. please copy that output content and paste in InboxEditorConfig.js file -->
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+
+			<script src="C:/Users/spatil1/Desktop/InboxEditorConfig.js"></script> <!--please include InboxEditorConfig file here-->
+			<script src="C:/Users/spatil1/Desktop/ExcelOutput.js"></script>			 <!--please include ExcelOutput file here-->
+
+	</head>
+
+	<body>
+			<button type="button" onclick="myFunction()">Select all</button>
+		<script >
+
+
+		function getDifferences(oldObj, newObj) {
+		var key;
+
+		for (key in newObj) {
+			if (!(oldObj[key])){
+			oldObj[key]=newObj[key];									//Puttting new object in old object
+			console.log("key",key);
+																		//document.write(oldObj[key]);
+			}
+			else
+		{
+		 var jsAllowedArr;
+		 var excelAllowedArr;
+		 jsAllowedArr = oldObj[key].AllowedUsers;
+		 excelAllowedArr = newObj[key].AllowedUsers;
+		 for(var iloop=0;iloop<excelAllowedArr.length;iloop++){
+			if(jsAllowedArr.indexOf(excelAllowedArr[iloop])==-1){		//AllowedUsers property shd be present in all objects
+			   jsAllowedArr.push(excelAllowedArr[iloop]);				// putting new allowed user in old 
+				}
+			}
+			
+		 var jsFullNameArr;
+		 var excelFullNameArr;
+		 jsFullNameArr = oldObj[key].AllowedUsersFullName;
+		 excelFullNameArr = newObj[key].AllowedUsersFullName;
+		 for(var iloop=0;iloop<excelFullNameArr.length;iloop++){
+			if(jsFullNameArr.indexOf(excelFullNameArr[iloop])==-1){		//	AllowedUsersFullName property shd be present in all objects 
+			   jsFullNameArr.push(excelFullNameArr[iloop]);				// putting new allowed user Full name in old 
+				}
+			}
+			
+		}
+		
+		}
+   
+			var json = JSON.stringify(utilInboxEditorConfig.AccessDefinition.InboxLevelAccess);
+			document.write("<h1 >Updated InboxEditorConfig File !</h1><p><hr/></p>");
+			var beginTxt = "util.InboxEditorConfig = ";								// initial line
+			document.write("<textarea rows='100' cols='100' id='myTextarea'>"+beginTxt+json+"</textarea>");
+
+		}
+		
+	function myFunction() {
+    document.getElementById("myTextarea").select();
+	}
+
+
+		getDifferences(utilInboxEditorConfig.AccessDefinition.InboxLevelAccess, ExcelOutput.AccessDefinition.InboxLevelAccess);
+		</script>
+		
+		
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
